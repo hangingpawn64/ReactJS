@@ -1,0 +1,12 @@
+.card{
+    text-align: center;
+    width:16vw;
+    border: 2px solid black;
+    margin: 34px;
+    overflow: hidden;
+}
+
+.cards{
+    justify-content: center;
+    display: flex;
+}
