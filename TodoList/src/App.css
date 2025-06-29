@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+body{
+font-family: "Orbitron", sans-serif;
+font-optical-sizing: auto;
+font-weight: 400;
+background: #16222A;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+.commit{
+    font-family: "Sofia Sans", sans-serif;
+  background: #2b6894;
+  width: 30rem;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
+.addButton{
+  background: #133045;
+  font-size: 1.2rem;
+  min-width: 10rem;
+  height: 4rem;
+  border: 1px solid white;
+}
+
+   .addButton:active {
+     /* Styles applied when the button is clicked */
+     background-color: #122b3d;
+     color: white;
+   }
+
+.todos{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #2b6894;
+    justify-content: space-between;
+}
+
+.editbtn{
+    background-color: #133045dd;
+}
+
+.dltbtn{
+    background-color: #133045dd;
+
+}
+
+.todo{
+  font-family: "Sofia Sans", sans-serif;
+  border-bottom: 2px solid #0d2e3f;
+}
+.todo:last-child {
+  border-bottom: none;
+}
