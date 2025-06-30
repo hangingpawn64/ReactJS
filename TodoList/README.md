@@ -24,21 +24,21 @@ Get It Together is a stylish, responsive To-Do List web app built with React, fe
 🎨 Themes: Switch between Light, Gradient, and Dark modes.
 
 📂 Project Structure
-pgsql
-Copy
-Edit
-├── public
-├── src
-│   ├── App.jsx         // Main To-Do logic with state handling
-│   ├── components
-│   │   ├── Header.jsx  // Navigation bar with theme controls
-│   │   ├── time.jsx    // Live clock component
-│   ├── assets
-│   ├── App.css
-│   └── index.jsx
-├── package.json
-└── README.md
-⚙️ Setup & Installation
+pgsql <br>
+Copy  <br>
+Edit <br>
+├── public <br>
+├── src <br>
+│   ├── App.jsx         // Main To-Do logic with state handling <br>
+│   ├── components <br>
+│   │   ├── Header.jsx  // Navigation bar with theme controls <br>
+│   │   ├── time.jsx    // Live clock component  <br>
+│   ├── assets <br>
+│   ├── App.css <br>
+│   └── index.jsx <br>
+├── package.json <br>
+└── README.md <br>
+⚙️ Setup & Installation <br>
 Clone the repo
 
 bash
