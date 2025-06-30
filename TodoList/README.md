@@ -1,12 +1,97 @@
-# React + Vite
+📝 Get It Together - React To-Do List with Voice Input
+Get It Together is a stylish, responsive To-Do List web app built with React, featuring:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+✅ Modern responsive UI
+✅ Local Storage for persistent tasks
+✅ Task editing & deletion
+✅ Speech-to-text task entry (using Web Speech API)
+✅ Dynamic time display
+✅ Dark/Light/Gradient theme options
 
-Currently, two official plugins are available:
+🚀 Features
+🎤 Voice Input: Add tasks using your voice with the Speech Recognition API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+💾 Local Storage: Your tasks stay saved even after refreshing or closing the browser.
 
-## Expanding the ESLint configuration
+✏️ Edit Tasks: Quickly edit existing tasks.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🗑️ Delete Tasks: Remove completed or unwanted tasks.
+
+✅ Mark Complete: Checkbox to mark tasks as done, with strikethrough effect.
+
+⏰ Live Clock: Displays current time (Asia/Kolkata timezone).
+
+🎨 Themes: Switch between Light, Gradient, and Dark modes.
+
+📂 Project Structure
+pgsql
+Copy
+Edit
+├── public
+├── src
+│   ├── App.jsx         // Main To-Do logic with state handling
+│   ├── components
+│   │   ├── Header.jsx  // Navigation bar with theme controls
+│   │   ├── time.jsx    // Live clock component
+│   ├── assets
+│   ├── App.css
+│   └── index.jsx
+├── package.json
+└── README.md
+⚙️ Setup & Installation
+Clone the repo
+
+bash
+Copy
+Edit
+git clone <repository-url>
+cd get-it-together
+Install dependencies
+
+bash
+Copy
+Edit
+npm install
+Start development server
+
+bash
+Copy
+Edit
+npm run dev
+Open http://localhost:5173 in your browser.
+
+🛠️ Tech Stack
+React
+
+Vite
+
+TailwindCSS (for responsive styling)
+
+Web Speech API (for voice input)
+
+Local Storage (persistent tasks)
+
+🎤 How Voice Input Works
+Click the microphone icon beside the task input.
+
+Speak your task clearly.
+
+The text field auto-fills with your spoken words.
+
+ℹ️ Voice input works best on supported browsers like Chrome.
+
+✨ Improvements Ideas
+
+Task filtering (All / Active / Completed)
+
+Theme preference saving
+
+Better error handling for unsupported browsers
+
+Task due dates or reminders
+
+💡 Author
+Made with 💙 by Akshit Tupkar
+
+📄 License
+Open-source project — feel free to use and contribute!
