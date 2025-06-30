@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -13,6 +13,28 @@ function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [listening, setListening] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+
+  useEffect(() => {
+    let todoString = localStorage.getItem("todos");
+    if (todoString) {
+      setTodos(JSON.parse(todoString));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isInitialLoad) {
+      setIsInitialLoad(false);
+      return;
+    }
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+   
+  const saveToLS = () => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }
+  
 
   const handleAdd = () => {
     if (todo.trim() === "") {
@@ -20,6 +42,7 @@ function App() {
     }
     setTodos([...todos, { id: uuidv4(), todo, isCompleted: false }]);
     setTodo("");
+
   };
 
   const handleDelete = (e, id) => {
@@ -31,6 +54,7 @@ function App() {
     });
     setTodos(newTodos);
     console.log(newTodos);
+
   };
 
   const handleEdit = (e, id) => {
@@ -40,6 +64,7 @@ function App() {
       return item.id !== id;
     });
     setTodos(newTodos);
+
   };
 
   const handleChange = (e) => {
@@ -55,6 +80,7 @@ function App() {
     newTodos[index].isCompleted = !newTodos[index].isCompleted;
     setTodos(newTodos);
     console.log(newTodos);
+
   };
 
   // speech
@@ -142,14 +168,14 @@ function App() {
               return (
                 <div
                   key={item.id}
-                  className="todo flex justify-between p-2 text-white text-2xl my-2"
+                  className="todo flex items-center justify-between p-2 text-white text-2xl my-2"
                 >
                   <input
                     className="checkbox w-7 ml-4 mr-4 cursor-pointer"
                     name={item.id}
                     onChange={handleCheckbox}
                     type="checkbox"
-                    value={todo.isCompleted}
+                    checked={item.isCompleted}
                     id=""
                   />
                   <div className={item.isCompleted ? "line-through opacity-50"  : ""}>
