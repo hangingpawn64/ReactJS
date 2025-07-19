@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import Theme from "./components/Theme";
+import Header from "./components/Header";
 import Time from "./components/time";
 import { Mic, SquarePen, Trash2 } from "lucide-react";
 
@@ -14,7 +12,8 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [listening, setListening] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-
+  const [showCompleted, setShowCompleted] = useState(true);
+  const [addClicked, setAddClicked] = useState(false);
 
   useEffect(() => {
     let todoString = localStorage.getItem("todos");
@@ -30,11 +29,6 @@ function App() {
     }
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
-   
-  const saveToLS = () => {
-    localStorage.setItem("todos", JSON.stringify(todos))
-  }
-  
 
   const handleAdd = () => {
     if (todo.trim() === "") {
@@ -42,7 +36,8 @@ function App() {
     }
     setTodos([...todos, { id: uuidv4(), todo, isCompleted: false }]);
     setTodo("");
-
+    setAddClicked(true);
+    setTimeout(() => setAddClicked(false), 200);
   };
 
   const handleDelete = (e, id) => {
@@ -54,7 +49,6 @@ function App() {
     });
     setTodos(newTodos);
     console.log(newTodos);
-
   };
 
   const handleEdit = (e, id) => {
@@ -64,7 +58,6 @@ function App() {
       return item.id !== id;
     });
     setTodos(newTodos);
-
   };
 
   const handleChange = (e) => {
@@ -80,7 +73,6 @@ function App() {
     newTodos[index].isCompleted = !newTodos[index].isCompleted;
     setTodos(newTodos);
     console.log(newTodos);
-
   };
 
   // speech
@@ -110,91 +102,112 @@ function App() {
     setListening(false);
   };
 
+  const visibleTodos = todos.filter(
+    (item) => showCompleted || !item.isCompleted
+  );
+
   return (
     <>
-      {<Theme />}
+      {<Header />}
       {
-        <div className="container flex flex-col items-center h-screen mx-auto my-5 rounded-xl p-5">
-          <div className="text-6xl font-bold text-white mb-8">You Got This</div>
+        <div className="container flex flex-col items-center justify-start min-h-screen w-full max-w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10 bg-transparent overflow-x-hidden">
+          <div className="title text-3xl pb-4 sm:pb-6 md:pb-8 sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 sm:mb-4 md:mb-6 text-center">
+            You Got This
+          </div>
 
-          <div className="relative group items-center">
-            <div className="absolute -inset-0.5 rounded-3xl bg-blue-700/0 group-hover:bg-blue-700/20 blur-md transition-all duration-300 -z-10"></div>
-            <div className="addTodo flex items-center w-full max-w-xl mx-auto mb-4">
-              <div className="relative w-full">
+          <div className="relative group flex flex-col items-center w-full max-w-full">
+            <div className="addTodo flex flex-col sm:flex-row items-center w-full max-w-[95%] sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto mb-4 gap-2 sm:gap-0">
+              <div className="relative w-full max-w-full">
                 <input
                   onChange={handleChange}
                   value={todo}
-                  className="commit px-4 py-2  rounded-3xl border-transparent focus:border-gray-300 focus:border transition-all duration-100 text-white w-full"
+                  className="commit px-3 py-2 sm:py-3 md:py-4 rounded-3xl border-transparent focus:border-gray-300 focus:border transition-all duration-100 text-white w-full bg-[#2b6894] text-sm sm:text-base md:text-lg lg:text-xl placeholder:text-gray-200"
                   type="text"
                   placeholder="Commit a task..."
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleAdd();
+                  }}
                 />
                 {/* speech */}
                 <button
                   onClick={startListening}
-                  className={`micButton absolute right-3 top-1/2 -translate-y-1/2 text-white px-2 py-2 rounded-full ${
+                  className={`micButton absolute right-8 top-1/2 -translate-y-1/2 text-white px-1 sm:px-2 py-1 sm:py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-100 ${
                     listening ? "opacity-50" : ""
                   }`}
                   disabled={listening}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    outline: "none",
-                  }}
                   tabIndex={-1}
+                  style={{ zIndex: 10 }}
                 >
-                  <Mic className="h-6 w-6 cursor-pointer" />
+                  <Mic className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 cursor-pointer" />
                   {listening ? "..." : ""}
                 </button>
                 {/* /speech */}
               </div>
               <button
                 onClick={handleAdd}
-                className="addButton bg-blue-700 text-white py-2 rounded-3xl ml-2 border-transparent focus:border-white focus:border transition-all duration-100 cursor-pointer"
+                className={`addButton bg-blue-700 text-white py-2 sm:py-3 md:py-4 rounded-3xl mt-2 sm:mt-0 sm:ml-2 border border-white focus:border-white focus:border transition-all duration-100 cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl min-w-full sm:min-w-[6rem] md:min-w-[8rem] lg:min-w-[10rem] ${addClicked ? 'ring-1 ring-blue-950 scale-103' : ''}`}
               >
                 I Got This!
               </button>
             </div>
           </div>
-          <div className="time text-white flex justify-center p-3 text-1xl">
+          <div className="time w-full flex flex-col sm:flex-row items-center justify-center sm:gap-6 md:gap-8 lg:gap-12 text-white p-2 sm:p-3 text-xs sm:text-sm md:text-base lg:text-lg">
             <Time />
+            <label className="showCompleted flex items-center gap-2 sm:gap-3 md:gap-4 text-xs sm:text-sm md:text-base cursor-pointer select-none pl-2 sm:pl-3 my-2 sm:my-0">
+              <input
+                type="checkbox"
+                checked={showCompleted}
+                onChange={() => setShowCompleted((prev) => !prev)}
+                className="checkbox mr-1 sm:mr-2"
+              />
+              Show Completed
+            </label>
+            <button
+              onClick={() => setTodos([])}
+              className="clearbtn text-white text-xs sm:text-sm md:text-base font-semibold transition-all duration-100 my-2 sm:my-0"
+            >
+              Clear All
+            </button>
           </div>
-          <div className="todos flex-col rounded-4xl w-2/5">
-            {todos.length === 0 && (
-              <div className="notodos m-5 w-xl text-center text-xl font-extralight opacity-70">
+          <div className="todos flex flex-col rounded-3xl w-full max-w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-[#2b6894] mt-2 sm:mt-4 p-2 sm:p-3 md:p-4">
+            {visibleTodos.length === 0 && (
+              <div className="notodos m-3 sm:m-4 md:m-5 w-full text-center text-sm sm:text-base md:text-lg lg:text-xl font-extralight opacity-70">
                 Add Shit to do!
               </div>
             )}
-            {todos.map((item) => {
+            {visibleTodos.map((item) => {
               return (
                 <div
                   key={item.id}
-                  className="todo flex items-center justify-between p-2 text-white text-2xl my-2"
+                  className="todo flex items-center justify-between p-1 sm:p-2 md:p-3 text-white text-xs sm:text-sm md:text-base lg:text-lg my-1 sm:my-2 border-b border-[#0d2e3f] last:border-b-0"
                 >
                   <input
-                    className="checkbox w-7 ml-4 mr-4 cursor-pointer"
+                    className="checkbox w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 ml-1 mr-1 sm:ml-2 sm:mr-2 md:ml-3 md:mr-3 cursor-pointer bg-[#0d2e3f] border-2 border-[#3A6073] rounded-full appearance-none checked:bg-[#0d2e3f] checked:border-[#3A6073] relative"
                     name={item.id}
                     onChange={handleCheckbox}
                     type="checkbox"
                     checked={item.isCompleted}
                     id=""
                   />
-                  <div className={item.isCompleted ? "line-through opacity-50"  : ""}>
+                  <div
+                    className={`${item.isCompleted ? "line-through opacity-50 flex-1" : "flex-1"} break-words overflow-hidden`}
+                  >
                     {item.todo}
                   </div>
-                  <div className="flex buttons h-full">
+                  <div className="flex buttons h-full ml-2">
                     <button
                       onClick={(e) => handleEdit(e, item.id)}
-                      className="editbtn p-2 py-1 text-sm font-bold text-white rounded-md mx-1 cursor-pointer"
+                      className="editbtn p-1 sm:p-1.5 md:p-2 text-xs sm:text-sm font-bold text-white rounded-md mx-0.5 sm:mx-1 cursor-pointer bg-[#133045dd]"
                     >
-                      <SquarePen />
+                      <SquarePen className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
                     </button>
                     <button
                       onClick={(e) => {
                         handleDelete(e, item.id);
                       }}
-                      className="dltbtn p-2 py-1 text-sm font-bold text-white rounded-md mx-1 cursor-pointer"
+                      className="dltbtn p-1 sm:p-1.5 md:p-2 text-xs sm:text-sm font-bold text-white rounded-md mx-0.5 sm:mx-1 cursor-pointer bg-[#133045dd]"
                     >
-                      <Trash2 />
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
                     </button>
                   </div>
                 </div>
